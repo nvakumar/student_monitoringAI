@@ -1,12 +1,10 @@
-# Dockerfile
-
-# Use official Python image with necessary build tools
+# Use a stable Python base image
 FROM python:3.9-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install required system dependencies for dlib, face-recognition, OpenCV, etc.
 RUN apt-get update && apt-get install -y \
     cmake \
     build-essential \
@@ -21,15 +19,15 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy your code
+# Copy project files
 COPY . .
 
 # Install Python dependencies
 RUN pip install --no-cache-dir --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
 
-# Expose port
+# Expose Flask default port
 EXPOSE 5000
 
-# Start Flask app
+# Run the Flask server
 CMD ["python", "app.py"]
