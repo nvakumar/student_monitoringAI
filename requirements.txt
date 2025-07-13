@@ -1,7 +1,7 @@
-flask
-opencv-python
-face-recognition
-tensorflow-cpu==2.12.0
+Flask
+opencv-python-headless
 mediapipe
+face-recognition
+tensorflow==2.12.0
 numpy
 pyttsx3
