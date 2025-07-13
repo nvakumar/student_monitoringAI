@@ -1,9 +1,10 @@
 services:
   - type: web
-    name: smart-monitoring-backend
-    runtime: python
-    buildCommand: ""
-    startCommand: python app.py
+    name: student-monitoring-backend
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: PORT
-        value: 10000
+        value: 8000
