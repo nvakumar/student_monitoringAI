@@ -4,6 +4,6 @@ face-recognition
 opencv-python
 mediapipe
 tensorflow-cpu==2.11.0
-numpy
 flask
+numpy
 pyttsx3
