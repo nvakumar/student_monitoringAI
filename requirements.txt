@@ -1,7 +1,9 @@
-Flask
-opencv-python-headless
-mediapipe
+cmake
+dlib==19.24.0
 face-recognition
-tensorflow==2.12.0
+opencv-python
+mediapipe
+tensorflow-cpu==2.11.0
 numpy
+flask
 pyttsx3
