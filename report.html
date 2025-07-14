@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reports</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Analytics Reports</h1>
+    <button onclick="loadReport()">View Report</button>
+    <button onclick="download()">Download CSV</button>
+    <pre id="report"></pre>
+  </div>
+
+  <script>
+    function loadReport() {
+      fetch(`${BACKEND_URL}/api/report`).then(res => res.text()).then(data => {
+        document.getElementById("report").textContent = data;
+      });
+    }
+    function download() {
+      window.open(`${BACKEND_URL}/api/download_report/`);
+    }
+  </script>
+</body>
+</html>

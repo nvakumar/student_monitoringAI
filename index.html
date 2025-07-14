@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="config.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Student Login</h1>
+    <input type="text" id="registration_id" placeholder="Enter Registration ID" />
+    <button onclick="login()">Login</button>
+    <a href="register.html">Register</a>
+  </div>
+
+  <script>
+    function login() {
+      const regId = document.getElementById("registration_id").value.trim();
+      if (!regId) {
+        alert("Please enter your registration ID.");
+        return;
+      }
+
+      fetch(`${BACKEND_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ registration_id: regId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "success") {
+          localStorage.setItem("student_id", regId);
+          window.location.href = "dashboard.html";
+        } else {
+          alert("Login failed: " + (data.error || "Unknown error"));
+        }
+      })
+      .catch(() => alert("Server error"));
+    }
+  </script>
+</body>
+</html>

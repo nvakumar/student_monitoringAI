@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Registration</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="config.js"></script>
+  <style>
+    video {
+      width: 300px;
+      height: 225px;
+      border: 2px solid #333;
+      margin-bottom: 10px;
+    }
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      text-align: center;
+    }
+    canvas {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Register Student</h1>
+    <input type="text" id="name" placeholder="Enter Name" /><br><br>
+    <input type="text" id="reg_id" placeholder="Enter Registration ID" /><br><br>
+    
+    <video id="video" autoplay></video><br>
+    <button onclick="captureImage()">Capture Photo</button>
+    <button onclick="resetImages()">Reset</button><br><br>
+    
+    <p>Captured: <span id="count">0</span>/5</p>
+    <button onclick="submit()" id="submitBtn" disabled>Register</button>
+    
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const countSpan = document.getElementById("count");
+    const submitBtn = document.getElementById("submitBtn");
+    let imagesData = [];
+
+    // Start webcam
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => { video.srcObject = stream })
+      .catch(err => alert("Camera access denied: " + err.message));
+
+    function captureImage() {
+      if (imagesData.length >= 5) {
+        alert("Already captured 5 images.");
+        return;
+      }
+
+      const ctx = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0);
+
+      const base64 = canvas.toDataURL("image/jpeg");
+      imagesData.push(base64);
+      countSpan.innerText = imagesData.length;
+
+      if (imagesData.length === 5) {
+        submitBtn.disabled = false;
+      }
+    }
+
+    function resetImages() {
+      imagesData = [];
+      countSpan.innerText = "0";
+      submitBtn.disabled = true;
+    }
+
+    function submit() {
+      const name = document.getElementById("name").value;
+      const reg_id = document.getElementById("reg_id").value;
+      if (!name || !reg_id || imagesData.length !== 5) {
+        alert("Please complete the form and capture 5 images.");
+        return;
+      }
+
+      fetch(`${BACKEND_URL}/api/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, reg_id, imagesData })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === "success") {
+            alert("✅ Student registered successfully!");
+            window.location.href = "index.html";
+          } else {
+            alert("❌ Error: " + data.error);
+          }
+        });
+    }
+  </script>
+</body>
+</html>
