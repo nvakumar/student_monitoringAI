@@ -30,17 +30,32 @@ Smart Student Watch is a real-time AI-powered system that monitors students' emo
 ##  Folder Structure
 
 smart-student-watch/
-├── app.py # Flask backend server
-├── camera.py # Real-time detection logic
-├── recognition_report.py # Report summary generator
-├── best_mobilenet_model.h5 # Trained emotion classifier
-├── face_model.h5 # Face recognition model
-├── face_data/ # Saved student face encodings
-├── reports/ # Behavior logs per student (CSV)
-├── public/ # Static frontend assets
-├── index.html # Frontend entry point (HTML)
-├── requirements.txt # Python dependencies
-├── venv/ # Virtual environment
+│
+├── app.py                    # Main Flask backend (runs the app)
+├── camera.py                 # Real-time detection logic (face/emotion/posture)
+├── recognition_report.py     # Summarizes CSV logs into report
+├── best_mobilenet_model.h5   # Trained emotion detection model
+├── face_model.h5             # (Optional) Face recognition model
+├── requirements.txt          # Python dependency list
+├── README.md                 # Project documentation
+├── index.html                # Main frontend entry point (custom HTML)
+│
+├── face_data/                # Registered student face encodings
+│   └── (student_image_data.jpg etc.)
+│
+├── reports/                  # Auto-generated student logs (.csv per student)
+│   └── student_id_1.csv
+│   └── student_id_2.csv
+│
+├── public/                   # Static assets (CSS/JS/images if needed)
+│   └── style.css
+│   └── script.js
+│
+├── models/                   # Model folder if separated
+│   └── best_mobilenet_model.h5
+│
+└── venv/                     # Python virtual environment (ignored in Git)
+
 
 yaml
 Copy
